@@ -21,44 +21,38 @@ from CommonServerUserPython import *
 
 
 # TODO: REMOVE the following dummy function:
-def basescript_dummy(dummy: str) -> Dict[str, str]:
-    """Returns a simple python dict with the information provided
-    in the input (dummy).
-
-    :type dummy: ``str``
-    :param dummy: string to add in the dummy dict that is returned
-
-    :return: dict as {"dummy": dummy}
-    :rtype: ``str``
-    """
-
-    return {"dummy": dummy}
+def decoders_hex(encoded_text: str, to: str = 'utf-8') -> str:
+    decode = bytes.fromhex(encoded_text).decode(to)
+    return str(decode)
 
 
-# TODO: ADD HERE THE FUNCTIONS TO INTERACT WITH YOUR PRODUCT API
 
 
 """ COMMAND FUNCTION """
 
 
-# TODO: REMOVE the following dummy command function
-def basescript_dummy_command(args: Dict[str, Any]) -> CommandResults:
+def decoders_hex_command(args: Dict[str, Any]) -> CommandResults:
 
-    dummy = args.get("dummy", None)
-    if not dummy:
-        raise ValueError("dummy not specified")
+    encoded_text = args.get("encoded", None)
+    decode_to = args.get("to", None)
 
-    # Call the standalone function and get the raw response
-    result = basescript_dummy(dummy)
+    if not encoded_text:
+        raise ValueError("Encoded text not specified")
 
+    result = decoders_hex(encoded_text=encoded_text, to=decode_to)
+
+    result_dict  = {
+        "Decoded": result,
+        "Encoded": encoded_text,
+        "Encoder": "HEX",
+        "Decoded-To": decode_to
+    }
     return CommandResults(
-        outputs_prefix="DecodersHex",
+        outputs_prefix="Decoders",
         outputs_key_field="",
-        outputs=result,
+        outputs=result_dict,
     )
 
-
-# TODO: ADD additional command functions that translate XSOAR inputs/outputs
 
 
 """ MAIN FUNCTION """
@@ -66,8 +60,7 @@ def basescript_dummy_command(args: Dict[str, Any]) -> CommandResults:
 
 def main():
     try:
-        # TODO: replace the invoked command function with yours
-        return_results(basescript_dummy_command(demisto.args()))
+        return_results(decoders_hex_command(demisto.args()))
     except Exception as ex:
         return_error(f"Failed to execute DecodersHex. Error: {str(ex)}")
 

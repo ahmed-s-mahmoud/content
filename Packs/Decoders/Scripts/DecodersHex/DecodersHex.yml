@@ -1,29 +1,44 @@
 args:
 - default: false
-  description: '[Enter a description of the argument, including any important information users need to know, for example, default values.]'
+  description: 'The Hex  encoded text '
   isArray: false
-  name: dummy
+  name: encoded
   required: true
   secret: false
-comment: '[Enter a description of the script, including what function it performs and any important information users need to know, for example required permissions.]'
+- auto: PREDEFINED
+  default: false
+  defaultValue: utf8
+  description: Encoded to
+  isArray: false
+  name: to
+  predefined:
+  - utf8
+  required: false
+  secret: false
+comment: '[Enter a description of the script, including what function it performs
+  and any important information users need to know, for example required permissions.]'
 commonfields:
   id: DecodersHex
   version: -1
 enabled: false
 name: DecodersHex
 outputs:
-- contextPath: BaseScript.Output
+- contextPath: Decoder.Decoded
   description: '[Enter a description of the data returned in this output.]'
   type: String
+- contextPath: Decoder.Encoded
+  type: Unknown
+- contextPath: Decoder.Encoder
+  type: Unknown
 script: '-'
+subtype: python3
 system: false
 tags:
 - basescript
 timeout: '0'
 type: python
-subtype: python3
 dockerimage: demisto/python3:3.9.8.24399
-fromversion: 6.1.0
 marketplaces:
 - xsoar
 - marketplacev2
+fromversion: 6.1.0
